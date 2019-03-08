@@ -11,7 +11,6 @@
   <link rel="stylesheet" href="css/bs/bootstrap.min.css">
   <style>
     body {
-                padding-top: 50px;
                 padding-bottom: 20px;
             }
         </style>
@@ -36,21 +35,13 @@
       <h1>Hello, world!</h1>
       <p>This is a template for a simple marketing or informational website. It includes a large callout called a
         jumbotron and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
-      <div class="form-group">
-        <label for="summonerName">Summoner Name</label>
-        <input type="text" class="form-control" id="summonerName" aria-describedby="text" placeholder="Enter summoner name">
-        <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
-        <span class='input-group-btn'>
-          <button class="btn btn-primary btn-lg" type='button' onclick="getPlayerData()">Learn more &raquo;</button>
-        </span>
+      <label for="summonerName"><b>Summoner Name</b></label>
+
+      <div class="input-group">
+        <input type="text" class="form-control" id="summonerName" aria-describedby="text" placeholder="Enter summoner name" value='Anaklusmos Sword'>
+        <ddiv class='input-group-append'>
+          <button class="btn btn-primary btn-md" type='button' id='getPlayerData'">Request Data &raquo;</button>
       </div>
-      
-  </div>
-  <div class="input-group">
-    <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="basic-addon2">
-    <div class="input-group-append">
-      <button class="btn btn-outline-secondary" type="button">Button</button>
-      <button class="btn btn-outline-secondary" type="button">Button</button>
     </div>
   </div>
   <div class="container">

@@ -2,24 +2,39 @@ var url = 'https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-account/Zi
 console.log(url)
 
 //
-
-function getPlayerData(playerName) {
+$('#getPlayerData').click(function(){
+    console.log('Clicked');
+    var playerName = $('input').val();
     let encPlayerName = encodeURI(playerName);
-    console.log(encPlayerName); 
-    let body = fetch('https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-name/Anaklusmos%20Sword?api_key=RGAPI-2fba4b79-1f34-4eb4-96a3-8ce09747107e', {
-        method: 'GET',
-        headers: config._headers
-    })
-    .then((response) => {return response.json()})
-    .then((body) => {
-        console.log("Inner Body: " + JSON.stringify(body));
-        $('#testId').text(JSON.stringify(body['id']));
-        return body
-    });
+    let fullUrl = config._playerUrl + encPlayerName + '?' + config._apiKey;
+    console.log(encPlayerName);
+    let body = fetch(fullUrl, {
+            method: 'GET',
+            headers: config._headers
+        })
+        .then((response) => {
+            return response.json()
+        })
+        .then((body) => {
+            console.log("Inner Body: " + JSON.stringify(body));
+            $('#testId').text(body['id']);
+            return body
+        });
+    return;
+})
+
+function getPlayerChampData() {
     return;
 }
 
-function getPlayerChampData(){return;}
-function fillPlayerData(){return;}
-function fillPlayerChampData(){return;}
-function clearData(){return;}
+function fillPlayerData() {
+    return;
+}
+
+function fillPlayerChampData() {
+    return;
+}
+
+function clearData() {
+    return;
+}
