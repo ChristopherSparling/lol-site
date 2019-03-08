@@ -15,9 +15,22 @@
     font-style: italic; 
  }
 
+.input-group {
+   padding-bottom: 8px;
+}
 
+img {
+   padding-right: 2px;
+}
 
+.data-head {
+   margin-left: 10px;
+}
 
+.jumbotron {
+   padding-top: 25px;
+   padding-bottom: 25px;
+}
 
 
 
