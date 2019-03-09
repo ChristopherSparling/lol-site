@@ -57,8 +57,8 @@
           </select>
         </div>
         <div class='input-group-append'>
-          <button class="btn btn-primary btn-md" type='button' id='player-button'">Request Data &raquo;</button>
-            </div>
+          <button class="btn btn-primary btn-md" type='button' id='player-button'">Request Data </button>
+        </div>
       </div>
       <h6 id='welcome-id'></h6>
       <h6 id='last-updated'></h6>
@@ -66,31 +66,54 @@
     </div>
   </div>
   
-  <div id='data-sections' class="container">
+  <div id='data-sections' class="
+            container">
             <div class="row">
+
+
               <div class="col-md-4">
                 <div class="input-group">
                   <h2>League Data</h2>
-                  <button id="league-button" class="btn btn-sm btn-dark data-head">Request details &raquo;</button>
+                  <button id="league-button" class="btn btn-dark data-head" data-toggle="collapse" data-target='.league-section'
+                    aria-expanded="false" aria-controls="league-section">Show Data </button>
                 </div>
-                <p id='league-data'></p>
+                <div class="league-section collapse">
+                  <div class="card card-body">
+                    <img id='role1' height='36px' width='36px' src='' alt=''>
+                    <p id='league-data'></p>
+                  </div>
+                </div>
               </div>
+
+
               <hr>
               <div class="col-md-4">
                 <div class="input-group">
                   <h2>Mastery Data</h2>
-                  <button id="mastery-button"class="btn btn-sm btn-dark data-head">Request details &raquo;</button>
+                  <button id="mastery-button" class="btn btn-dark data-head float-right" data-toggle="collapse" data-target='.mastery-section'
+                    aria-expanded="false" aria-controls="mastery-section">Show Data </button>
                 </div>
-                <p id='mastery-data'></p>
+                <div class="mastery-section collapse">
+                  <div class="card card-body">
+                    <p id='mastery-data'></p>
+                  </div>
+                </div>
               </div>
+
               <hr>
               <div class="col-md-4">
                 <div class="input-group">
-                  <h2>Top Champion Data</h2>
-                  <button id="champion-button" class="btn btn-sm btn-dark data-head text-right">Request details &raquo;</button>
+                  <h2>Champion Data</h2>
+                  <button id="champion-button" class="btn btn-dark data-head" data-toggle="collapse" data-target='.champion-section'
+                    aria-expanded="false" aria-controls="champion-section">Show Data </button>
                 </div>
-                <p id='champion-data'></p>
+                <div class="champion-section collapse">
+                  <div class="card card-body">
+                    <p id='champion-data'></p>
+                  </div>
+                </div>
               </div>
+              
             </div>
         </div> <!-- /container -->
 
