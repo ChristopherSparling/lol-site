@@ -57,7 +57,7 @@
           </select>
         </div>
         <div class='input-group-append'>
-          <button class="btn btn-primary btn-md" type='button' id='getPlayerData'">Request Data &raquo;</button>
+          <button class="btn btn-primary btn-md" type='button' id='player-button'">Request Data &raquo;</button>
             </div>
       </div>
       <h6 id='welcome-id'></h6>
@@ -66,37 +66,39 @@
     </div>
   </div>
   
-  <div class="
-            container" id='league-data'>
+  <div id='data-sections' class="container">
             <div class="row">
               <div class="col-md-4">
                 <div class="input-group">
-                  <h2 class='text-left'>League Data</h2>
-                  <button class="btn btn-sm btn-dark data-head">Request details &raquo;</button>
+                  <h2>League Data</h2>
+                  <button id="league-button" class="btn btn-sm btn-dark data-head">Request details &raquo;</button>
                 </div>
-                <p id='testId'></p>
+                <p id='league-data'></p>
               </div>
               <hr>
               <div class="col-md-4">
                 <div class="input-group">
-                  <h2 class='text-left'>Mastery Data</h2>
-                  <button class="btn btn-sm btn-dark data-head">Request details &raquo;</button>
+                  <h2>Mastery Data</h2>
+                  <button id="mastery-button"class="btn btn-sm btn-dark data-head">Request details &raquo;</button>
                 </div>
-                <p id='testId'></p>
+                <p id='mastery-data'></p>
               </div>
               <hr>
               <div class="col-md-4">
                 <div class="input-group">
-                  <h2 class='text-left'>Top Champion Data</h2>
-                  <button class="btn btn-sm btn-dark data-head">Request details &raquo;</button>
+                  <h2>Top Champion Data</h2>
+                  <button id="champion-button" class="btn btn-sm btn-dark data-head text-right">Request details &raquo;</button>
                 </div>
-                <p id='testId'></p>
+                <p id='champion-data'></p>
               </div>
             </div>
-            <hr>
-            <footer>
-              <p>&copy; Christopher Sparling 2019</p>
-            </footer>
+        </div> <!-- /container -->
+
+        <div class="container">
+          <hr>
+          <footer>
+            <p>&copy; Christopher Sparling 2019</p>
+          </footer>
         </div> <!-- /container -->
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
           crossorigin="anonymous"></script>

@@ -1,17 +1,17 @@
 var url = 'https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-account/Zix-EQvvUfLrTq9_55IG0JvVvY2xefFCLmlGJdf6yfZBPV8';
 console.log(url)
-var playerName, encPlayerName,playerRegion
+var playerName, encPlayerName, playerRegion
 // On document ready set the header
 
 
 // Retrieve player data on click of "Request Data" button
-$('#getPlayerData').click(function () {
+$('#player-button').click(function () {
     playerName = $('#summonerName').val();
     encPlayerName = encodeURI(playerName);
     playerRegion = $('#region').children('option:selected').text();
 
     if (playerName != "" || playerRegion == 'Select Region') {
-        let fullUrl = 'https://' + playerRegion + config._playerUrl + encPlayerName;
+        let fullUrl = 'https://' + playerRegion + config._apiBase + config._playerUrl.replace('{summonerName}',encPlayerName);
         fetch(fullUrl, {
                 method: 'GET',
                 headers: config._headers
@@ -40,11 +40,15 @@ $('#getPlayerData').click(function () {
 })
 
 
+$('#league-button').click(function(){
 
-function getPlayerChampData() {
-    return;
-}
+})
+$('#mastery-button').click(function(){
 
+})
+$('#champion-buton').click(function(){
+
+})
 /*{
 	"id": "6nMTdgt_aX5FYQHyTHXgLy59g8Hd4Z-lVCfgJvZyUllorrE",
 	"accountId": "Zix-EQvvUfLrTq9_55IG0JvVvY2xefFCLmlGJdf6yfZBPV8",
@@ -65,14 +69,7 @@ function fillPlayerData(playerData) {
     $('#last-updated').html('<b>Last Updated:</b> ' + d.toLocaleString());
     $('#summoner-lvl').html('<b>Summoner Lvl:</b> ' + playerData['summonerLevel']);
     $('#summoner-icon').attr('src', 'http://avatar.leagueoflegends.com/na/Anaklusmos%20Sword.png')
-    $('')
-    return;
-}
-
-function fillPlayerChampData() {
-    return;
-}
-
-function clearData() {
+    $('.jumbotron').css("padding-bottom","25px");
+    $('#data-sections').css('display','block');
     return;
 }
