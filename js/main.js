@@ -1,18 +1,17 @@
 var url = 'https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-account/Zix-EQvvUfLrTq9_55IG0JvVvY2xefFCLmlGJdf6yfZBPV8';
-console.log(url)
+// console.log(url)
 var playerName, encPlayerName, playerRegion, encryptedSummonerId
 var leagueRetrieved = false,
     masteryRetrieved = false,
     championRetrieved = false
-// On document ready set the header
 
 /************************************************************************
  Helper Functions
 ************************************************************************/
 function titleCase(str) {
-    return str.replace(/\w\S/g, function (t) {
-        return t.toUpperCase()
-    });
+    return str.toLowerCase().split(' ').map(function (word) {
+        return word.replace(word[0], word[0].toUpperCase());
+    }).join(' ');
 }
 /************************************************************************
  Retrieve Functions
@@ -47,10 +46,10 @@ $('#player-button').click(function () {
                 throw new Error('Network response was not ok.');
             })
             .then((body) => {
-                console.log("Body: " + JSON.stringify(body));
+                // console.log("Body: " + JSON.stringify(body));
                 // $('#testId').text(JSON.stringify(body));
                 encryptedSummonerId = body['id'];
-                console.log(encryptedSummonerId);
+                // console.log(encryptedSummonerId);
                 fillPlayerData(body);
             })
             .catch(err => {
@@ -69,9 +68,9 @@ $('#player-button').click(function () {
 
 // Rerieve league information and placements for player
 $('#league-button').click(function () {
-    // if (leagueRetrieved){
-    //     return;
-    // }
+    if (leagueRetrieved) {
+        return;
+    }
     // console.log(config._leagueUrl.replace('{encryptedSummonerId}',encryptedSummonerId));
     let fullUrl = 'https://' + playerRegion + config._apiBase + (config._leagueUrl.replace('{encryptedSummonerId}', encryptedSummonerId));
     console.log(fullUrl);
@@ -124,12 +123,12 @@ function fillPlayerData(playerData) {
     let d = new Date(0);
     d.setUTCMilliseconds(playerData['revisionDate']);
     let playerIconUrl = config._iconUrl + playerRegion + '/' + encPlayerName;
-    console.log(playerIconUrl);
+    // console.log(playerIconUrl);
     // $('#welcome').text('Welcome ' + playerData['name'] + '!');
     $('#welcome-id').html('<b>Account Id:</b> ' + playerData['accountId']);
     $('#last-updated').html('<b>Last Updated:</b> ' + d.toLocaleString());
     $('#summoner-lvl').html('<b>Summoner Lvl:</b> ' + playerData['summonerLevel']);
-    $('#summoner-icon').attr('src', 'http://avatar.leagueoflegends.com/na/Anaklusmos%20Sword.png')
+    $('#summoner-icon').attr('src', `http://avatar.leagueoflegends.com/na/${encPlayerName}.png`)
     $('.jumbotron').css("padding-bottom", "10px");
     $('#data-sections').css('display', 'block');
     return;
@@ -155,28 +154,20 @@ function fillPlayerData(playerData) {
 ] 
  */
 function fillLeagueData(leagueData) {
-    let repl = {
-        "roleNumber": 0,
-        "role": "",
-        "tier": "",
-        "rank": "",
-        "wins": 0,
-        "losses": 0
-    };
-    // console.log(leagueData.length);
+    console.log(leagueData.length);
+    leagueRetrieved = true;
     for (var i = 0; i < leagueData.length; i++) {
-        console.log(titleCase(config._roleSrc[leagueData[i].position]));
-        let cardHtml = `<div class="card card-body">
+        // console.log(titleCase(config._roleSrc[leagueData[i].position]));
+        let cardHtml = `<div class="card card-body p-2 mb-1">
         <div class='d-inline'>
           <h3 class="card-title d-inline"><img class='mr-2' id='role${i}' height='36px' width='36px' src='img/roles/${config._roleSrc[leagueData[i].position]}.png'
               alt='${titleCase(config._roleSrc[leagueData[i].position])}Icon' style="display: inline">${titleCase(config._roleSrc[leagueData[i].position])}</h3>
-          <p class="d-inline">${titleCase(leagueData[i].tier)} ${leagueData[i].rank}</p>
+          <p class="d-inline float-right m-2" style='margin-bottom: 0px;'>${titleCase(leagueData[i].tier)} ${leagueData[i].rank} <b>LP:</b>${leagueData[i].leaguePoints} || ${leagueData[i].wins}W  ${leagueData[i].losses}L </p>
         </div>
-        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-          card's content.</p>
       </div>`;
         // console.log(cardHtml);
         $('.league-section').append(cardHtml);
+
     }
     return;
 
