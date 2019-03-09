@@ -20,7 +20,7 @@
 }
 
 img {
-   padding-right: 2px;
+   background-color: black
 }
 
 .data-head {
@@ -32,10 +32,16 @@ img {
    padding-bottom: 75px;
 }
 
-#data-sections {
-   display: block;
-}
 
+.card-body {
+   background-color: darkslategray;
+   color: white;
+}
+.card-body > h3 > img {
+   background-color: black;
+   padding-right: 0px;
+   margin-right: 6px;
+}
 
 
 
