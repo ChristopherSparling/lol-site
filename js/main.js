@@ -78,6 +78,7 @@ $('#league-button').click(function () {
 
     fetch(fullUrl, {
             method: 'GET',
+            // mode: 'no-cors',
             headers: config._headers
         })
         .then((response) => {
@@ -98,6 +99,58 @@ $('#league-button').click(function () {
 })
 
 $('#mastery-button').click(function () {
+    if(masteryRetrieved){
+        return;
+    }
+    function getMasteryScore(){
+        console.log("Getting Mastery Score");
+        let fullUrl = 'https://' + playerRegion + config._apiBase + (config._masteryScoreUrl.replace('{encryptedSummonerId}', encryptedSummonerId));
+        fetch(fullUrl, {
+            method: 'GET',
+            headers: config._headers
+        })
+        .then((response) => {
+            if (response.ok) {
+                console.log("Got Mastery Score");
+                return response.json();
+                
+            }
+            throw new Error('Network response was not ok.');
+        })
+        .catch(err => {
+            console.log('Error encountered', err);
+        }); 
+    }
+
+    // Actually retrieves all Champion scores, but only manages top 5
+    function getTopChampionMasteryScores(){
+        console.log("Getting Top Champions");
+        let fullUrl = 'https://' + playerRegion + config._apiBase + (config._allChampionMasteryUrl.replace('{encryptedSummonerId}', encryptedSummonerId));
+        fetch(fullUrl, {
+            method: 'GET',
+            headers: config._headers
+        })
+        .then((response) => {
+            if (response.ok) {
+                console.log("Got Top Champion Scores");
+                //Should validate the length of this array in the case that the user has not played 3 champions
+                return response.json().slice(0,5);
+            }
+            throw new Error('Network response was not ok.');
+        })
+        .catch(err => {
+            console.log('Error encountered', err);
+        }); 
+    }
+   
+    // Once both promises have been fulfilled, fill mastery data section
+    Promise.all([getTopChampionMasteryScores(),getMasteryScore()])
+    .then((body) => {
+        masteryRetrieved = true;
+        console.log("Promises Kept: " + body);
+        fillMasteryData(body);
+    })
+
 
 })
 $('#champion-buton').click(function () {
@@ -162,12 +215,10 @@ function fillLeagueData(leagueData) {
         <div class='d-inline'>
           <h3 class="card-title d-inline"><img class='mr-2' id='role${i}' height='36px' width='36px' src='img/roles/${config._roleSrc[leagueData[i].position]}.png'
               alt='${titleCase(config._roleSrc[leagueData[i].position])}Icon' style="display: inline">${titleCase(config._roleSrc[leagueData[i].position])}</h3>
-          <p class="d-inline float-right m-2" style='margin-bottom: 0px;'>${titleCase(leagueData[i].tier)} ${leagueData[i].rank} <b>LP:</b>${leagueData[i].leaguePoints} || ${leagueData[i].wins}W  ${leagueData[i].losses}L </p>
+          <p class="d-inline right m-2" style='margin-bottom: 0px;'>${titleCase(leagueData[i].tier)} ${leagueData[i].rank} <b>LP:</b>${leagueData[i].leaguePoints} || ${leagueData[i].wins}W  ${leagueData[i].losses}L </p>
         </div>
       </div>`;
-        // console.log(cardHtml);
         $('.league-section').append(cardHtml);
-
     }
     return;
 
