@@ -5,6 +5,7 @@ var leagueRetrieved = false,
     masteryRetrieved = false,
     championRetrieved = false
 
+console.log(champs.)
 /************************************************************************
  Helper Functions
 ************************************************************************/
@@ -49,7 +50,7 @@ $('#player-button').click(function () {
                 // console.log("Body: " + JSON.stringify(body));
                 // $('#testId').text(JSON.stringify(body));
                 encryptedSummonerId = body['id'];
-                // console.log(encryptedSummonerId);
+                console.log(encryptedSummonerId);
                 fillPlayerData(body);
             })
             .catch(err => {
@@ -99,22 +100,19 @@ $('#league-button').click(function () {
 })
 
 $('#mastery-button').click(function () {
-    if(masteryRetrieved){
-        return;
-    }
+    // if(masteryRetrieved){
+    //     return;
+    // }
     function getMasteryScore(){
-        console.log("Getting Mastery Score");
+        // console.log("Getting Mastery Score");
         let fullUrl = 'https://' + playerRegion + config._apiBase + (config._masteryScoreUrl.replace('{encryptedSummonerId}', encryptedSummonerId));
-        fetch(fullUrl, {
+        // console.log(fullUrl);
+        return fetch(fullUrl, {
             method: 'GET',
             headers: config._headers
         })
         .then((response) => {
-            if (response.ok) {
-                console.log("Got Mastery Score");
-                return response.json();
-                
-            }
+            if (response.ok) {return response.json();}
             throw new Error('Network response was not ok.');
         })
         .catch(err => {
@@ -124,34 +122,33 @@ $('#mastery-button').click(function () {
 
     // Actually retrieves all Champion scores, but only manages top 5
     function getTopChampionMasteryScores(){
-        console.log("Getting Top Champions");
         let fullUrl = 'https://' + playerRegion + config._apiBase + (config._allChampionMasteryUrl.replace('{encryptedSummonerId}', encryptedSummonerId));
-        fetch(fullUrl, {
+        return fetch(fullUrl, {
             method: 'GET',
             headers: config._headers
         })
         .then((response) => {
             if (response.ok) {
-                console.log("Got Top Champion Scores");
                 //Should validate the length of this array in the case that the user has not played 3 champions
-                return response.json().slice(0,5);
-            }
+                return (response.json());
+            }  
             throw new Error('Network response was not ok.');
         })
         .catch(err => {
             console.log('Error encountered', err);
         }); 
     }
-   
+
     // Once both promises have been fulfilled, fill mastery data section
     Promise.all([getTopChampionMasteryScores(),getMasteryScore()])
-    .then((body) => {
-        masteryRetrieved = true;
-        console.log("Promises Kept: " + body);
-        fillMasteryData(body);
+    .then(response => {
+        console.log(response);
+        fillMasteryData(response[0].slice(0,5),response[1])
     })
+    // .then(obj => console.log(obj.slice(0,5)))
+    .catch(err=>{
 
-
+    });
 })
 $('#champion-buton').click(function () {
 
@@ -161,7 +158,6 @@ $('#champion-buton').click(function () {
 /************************************************************************
  Fill Functions
 ************************************************************************/
-
 /*{
 	"id": "6nMTdgt_aX5FYQHyTHXgLy59g8Hd4Z-lVCfgJvZyUllorrE",
 	"accountId": "Zix-EQvvUfLrTq9_55IG0JvVvY2xefFCLmlGJdf6yfZBPV8",
@@ -186,7 +182,7 @@ function fillPlayerData(playerData) {
     $('#data-sections').css('display', 'block');
     return;
 }
-/**
+/*
  [{
 	"leagueId": "00000000-0000-0000-0000-000000000000",
 	"leagueName": "",
@@ -224,9 +220,23 @@ function fillLeagueData(leagueData) {
 
 }
 
-/** */
-function fillMasteryData(masteryData) {
-
+/*{
+    championId: 67
+    championLevel: 5
+    championPoints: 53067
+    championPointsSinceLastLevel: 31467
+    championPointsUntilNextLevel: 0
+    chestGranted: false
+    lastPlayTime: 1499711071000
+    summonerId: "6nMTdgt_aX5FYQHyTHXgLy59g8Hd4Z-lVCfgJvZyUllorrE"
+    tokensEarned: 1
+}*/
+function fillMasteryData(masteryData, masteryScore) {
+    console.log("MasteryData: ",masteryScore, masteryData);
+    for(e in masteryScore.entries()){
+        console.log()
+    }
+    return;
 }
 
 /** */
