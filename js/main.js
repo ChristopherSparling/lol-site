@@ -99,9 +99,9 @@ $('#league-button').click(function () {
 })
 
 $('#mastery-button').click(function () {
-    // if(masteryRetrieved){
-    //     return;
-    // }
+    if(masteryRetrieved){
+        return;
+    }
     function getMasteryScore() {
         // console.log("Getting Mastery Score");
         let fullUrl = 'https://' + playerRegion + config._apiBase + (config._masteryScoreUrl.replace('{encryptedSummonerId}', encryptedSummonerId));
@@ -144,7 +144,7 @@ $('#mastery-button').click(function () {
     Promise.all([getTopChampionMasteryScores(), getMasteryScore()])
         .then(response => {
             console.log(response);
-            fillMasteryData(response[0].slice(0, 5), response[1])
+            fillMasteryData(response[0].slice(0, 5), response[1], response[0].length);
         })
         // .then(obj => console.log(obj.slice(0,5)))
         .catch(err => {
@@ -169,12 +169,10 @@ $('#champion-buton').click(function () {
 	"summonerLevel": 36
 }*/
 function fillPlayerData(playerData) {
-    // Update welcome text
     let d = new Date(0);
     d.setUTCMilliseconds(playerData['revisionDate']);
     let playerIconUrl = config._iconUrl + playerRegion + '/' + encPlayerName;
-    // console.log(playerIconUrl);
-    // $('#welcome').text('Welcome ' + playerData['name'] + '!');
+
     $('#welcome-id').html('<b>Account Id:</b> ' + playerData['accountId']);
     $('#last-updated').html('<b>Last Updated:</b> ' + d.toLocaleString());
     $('#summoner-lvl').html('<b>Summoner Lvl:</b> ' + playerData['summonerLevel']);
@@ -207,7 +205,6 @@ function fillLeagueData(leagueData) {
     console.log(leagueData.length);
     leagueRetrieved = true;
     for (var i = 0; i < leagueData.length; i++) {
-        // console.log(titleCase(config._roleSrc[leagueData[i].position]));
         let cardHtml = `<div class="card card-body p-2 mb-1">
         <div class='d-inline'>
           <h3 class="card-title d-inline"><img class='mr-2' id='leagueRole${i}' height='36px' width='36px' src='img/roles/${config._roleSrc[leagueData[i].position]}.png'
@@ -234,25 +231,25 @@ function fillLeagueData(leagueData) {
 }
 {name: "Gnar", internalName: "Gnar", title: "the Missing Link"}
 */
-function fillMasteryData(masteryData, masteryScore) {
-    console.log("MasteryData: ", masteryScore, masteryData);
-    // console.log(masteryData.entries());
-    // let test = champData;
-
-    // for (e in masteryData) {
-        // console.log(champRef[masteryData[e].championId]);
-        // console.log(champs.champData[e[0].ChampionData]);
-    
+function fillMasteryData(masteryData, masteryScore, numChamps) {
+    console.log("MasteryData: ", masteryScore, masteryData, numChamps);
+    $('#mastery-score').html('Total Mastery: ' +  masteryScore);
+    $('#mastery-score-p').html('Champions Leveled: ' + numChamps);
+    masteryRetrieved = true;
     for (var i = 0; i < masteryData.length; i++) {
         masteryRef = masteryData[i];
         tempChampRef = champRef[masteryRef.championId];
-        console.log(masteryRef, tempChampRef);
+        let d = new Date(0);
+        d.setUTCMilliseconds(masteryRef.lastPlayTime);
+        let champGains = Math.round((masteryRef.championPointsSinceLastLevel/(masteryRef.championPointsSinceLastLevel+masteryRef.championPointsUntilNextLevel) * 100));
+        
         let cardHtml = `<div class="card card-body p-2 mb-1">
         <div class='d-inline'>
-          <h3 class="card-title d-inline"><img class='mr-2' id='masteryRole${i}' height='36px' width='36px' src='img/portraits/${tempChampRef.name.toLowerCase()}.png'
+          <h3 class="card-title d-inline"><img class='mr-2' id='masteryRole${i}' height='36px' width='36px' src='img/portraits/${tempChampRef.internalName}Square.png'
               alt='${tempChampRef.name}Icon' style="display: inline">${tempChampRef.name}</h3>
-          <p class="d-inline right m-2" style='margin-bottom: 0px;'>${tempChampRef.title}</p>
+        <p class="d-inline right mb-0">${tempChampRef.title}</p>
         </div>
+        <p class='mb-0'>Mastery: ${masteryRef.championLevel} || % to Next Level: ${champGains}% || Last Played: ${d.toLocaleDateString()}</p>
       </div>`;
         $('.mastery-section').append(cardHtml);
     }
