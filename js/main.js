@@ -3,10 +3,9 @@ var url = 'https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-account/Zi
 var playerName, encPlayerName, playerRegion, encryptedSummonerId
 var leagueRetrieved = false,
     masteryRetrieved = false,
-    championRetrieved = false
+    championRetrieved = false;
 
-console.log(champs.)
-/************************************************************************
+    /************************************************************************
  Helper Functions
 ************************************************************************/
 function titleCase(str) {
@@ -30,6 +29,8 @@ $('#player-button').click(function () {
         // Pop up some sort of bubble indicating this summoners data has already been retrieved
         return;
     }
+    console.log(champs.champData);
+
     playerName = $('#summonerName').val();
     encPlayerName = encodeURI(playerName);
     playerRegion = $('#region').children('option:selected').text();
@@ -103,52 +104,54 @@ $('#mastery-button').click(function () {
     // if(masteryRetrieved){
     //     return;
     // }
-    function getMasteryScore(){
+    function getMasteryScore() {
         // console.log("Getting Mastery Score");
         let fullUrl = 'https://' + playerRegion + config._apiBase + (config._masteryScoreUrl.replace('{encryptedSummonerId}', encryptedSummonerId));
         // console.log(fullUrl);
         return fetch(fullUrl, {
-            method: 'GET',
-            headers: config._headers
-        })
-        .then((response) => {
-            if (response.ok) {return response.json();}
-            throw new Error('Network response was not ok.');
-        })
-        .catch(err => {
-            console.log('Error encountered', err);
-        }); 
+                method: 'GET',
+                headers: config._headers
+            })
+            .then((response) => {
+                if (response.ok) {
+                    return response.json();
+                }
+                throw new Error('Network response was not ok.');
+            })
+            .catch(err => {
+                console.log('Error encountered', err);
+            });
     }
 
     // Actually retrieves all Champion scores, but only manages top 5
-    function getTopChampionMasteryScores(){
+    function getTopChampionMasteryScores() {
         let fullUrl = 'https://' + playerRegion + config._apiBase + (config._allChampionMasteryUrl.replace('{encryptedSummonerId}', encryptedSummonerId));
         return fetch(fullUrl, {
-            method: 'GET',
-            headers: config._headers
-        })
-        .then((response) => {
-            if (response.ok) {
-                //Should validate the length of this array in the case that the user has not played 3 champions
-                return (response.json());
-            }  
-            throw new Error('Network response was not ok.');
-        })
-        .catch(err => {
-            console.log('Error encountered', err);
-        }); 
+                method: 'GET',
+                headers: config._headers
+            })
+            .then((response) => {
+                if (response.ok) {
+                    //Should validate the length of this array in the case that the user has not played 3 champions
+                    return (response.json());
+                }
+                throw new Error('Network response was not ok.');
+            })
+            .catch(err => {
+                console.log('Error encountered', err);
+            });
     }
 
     // Once both promises have been fulfilled, fill mastery data section
-    Promise.all([getTopChampionMasteryScores(),getMasteryScore()])
-    .then(response => {
-        console.log(response);
-        fillMasteryData(response[0].slice(0,5),response[1])
-    })
-    // .then(obj => console.log(obj.slice(0,5)))
-    .catch(err=>{
+    Promise.all([getTopChampionMasteryScores(), getMasteryScore()])
+        .then(response => {
+            console.log(response);
+            fillMasteryData(response[0].slice(0, 5), response[1])
+        })
+        // .then(obj => console.log(obj.slice(0,5)))
+        .catch(err => {
 
-    });
+        });
 })
 $('#champion-buton').click(function () {
 
@@ -232,9 +235,13 @@ function fillLeagueData(leagueData) {
     tokensEarned: 1
 }*/
 function fillMasteryData(masteryData, masteryScore) {
-    console.log("MasteryData: ",masteryScore, masteryData);
-    for(e in masteryScore.entries()){
-        console.log()
+    console.log("MasteryData: ", masteryScore, masteryData);
+    // console.log(masteryData.entries());
+    console.log(champs.champData);
+    for (e in masteryData) {
+        console.log(masteryData[e]);
+        console.log(champs.champData);
+        // console.log(champs.champData[e[0].ChampionData]);
     }
     return;
 }
