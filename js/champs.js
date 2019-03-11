@@ -1,8 +1,4 @@
-var champData = {
-    test: "testing"
-};
-/*
-var champData = {
+var champRef = {
 "266": {"name":"Aatrox","internalName":"Aatrox","title":"the Darkin Blade"},
 "103": {"name":"Ahri","internalName":"Ahri","title":"the Nine-Tailed Fox"},
 "84": {"name":"Akali","internalName":"Akali","title":"the Rogue Assassin"},
@@ -144,5 +140,5 @@ var champData = {
 "26": {"name":"Zilean","internalName":"Zilean","title":"the Chronokeeper"},
 "142": {"name":"Zoe","internalName":"Zoe","title":"the Aspect of Twilight"},
 "143": {"name":"Zyra","internalName":"Zyra","title":"Rise of the Thorns"}
-};
-*/
+}
+// console.log(champData);

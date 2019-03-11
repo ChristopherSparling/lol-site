@@ -5,7 +5,7 @@ var leagueRetrieved = false,
     masteryRetrieved = false,
     championRetrieved = false;
 
-    /************************************************************************
+/************************************************************************
  Helper Functions
 ************************************************************************/
 function titleCase(str) {
@@ -29,8 +29,6 @@ $('#player-button').click(function () {
         // Pop up some sort of bubble indicating this summoners data has already been retrieved
         return;
     }
-    console.log(champs.champData);
-
     playerName = $('#summonerName').val();
     encPlayerName = encodeURI(playerName);
     playerRegion = $('#region').children('option:selected').text();
@@ -212,7 +210,7 @@ function fillLeagueData(leagueData) {
         // console.log(titleCase(config._roleSrc[leagueData[i].position]));
         let cardHtml = `<div class="card card-body p-2 mb-1">
         <div class='d-inline'>
-          <h3 class="card-title d-inline"><img class='mr-2' id='role${i}' height='36px' width='36px' src='img/roles/${config._roleSrc[leagueData[i].position]}.png'
+          <h3 class="card-title d-inline"><img class='mr-2' id='leagueRole${i}' height='36px' width='36px' src='img/roles/${config._roleSrc[leagueData[i].position]}.png'
               alt='${titleCase(config._roleSrc[leagueData[i].position])}Icon' style="display: inline">${titleCase(config._roleSrc[leagueData[i].position])}</h3>
           <p class="d-inline right m-2" style='margin-bottom: 0px;'>${titleCase(leagueData[i].tier)} ${leagueData[i].rank} <b>LP:</b>${leagueData[i].leaguePoints} || ${leagueData[i].wins}W  ${leagueData[i].losses}L </p>
         </div>
@@ -223,7 +221,7 @@ function fillLeagueData(leagueData) {
 
 }
 
-/*{
+/*{ masteryData
     championId: 67
     championLevel: 5
     championPoints: 53067
@@ -233,15 +231,30 @@ function fillLeagueData(leagueData) {
     lastPlayTime: 1499711071000
     summonerId: "6nMTdgt_aX5FYQHyTHXgLy59g8Hd4Z-lVCfgJvZyUllorrE"
     tokensEarned: 1
-}*/
+}
+{name: "Gnar", internalName: "Gnar", title: "the Missing Link"}
+*/
 function fillMasteryData(masteryData, masteryScore) {
     console.log("MasteryData: ", masteryScore, masteryData);
     // console.log(masteryData.entries());
-    console.log(champs.champData);
-    for (e in masteryData) {
-        console.log(masteryData[e]);
-        console.log(champs.champData);
+    // let test = champData;
+
+    // for (e in masteryData) {
+        // console.log(champRef[masteryData[e].championId]);
         // console.log(champs.champData[e[0].ChampionData]);
+    
+    for (var i = 0; i < masteryData.length; i++) {
+        masteryRef = masteryData[i];
+        tempChampRef = champRef[masteryRef.championId];
+        console.log(masteryRef, tempChampRef);
+        let cardHtml = `<div class="card card-body p-2 mb-1">
+        <div class='d-inline'>
+          <h3 class="card-title d-inline"><img class='mr-2' id='masteryRole${i}' height='36px' width='36px' src='img/portraits/${tempChampRef.name.toLowerCase()}.png'
+              alt='${tempChampRef.name}Icon' style="display: inline">${tempChampRef.name}</h3>
+          <p class="d-inline right m-2" style='margin-bottom: 0px;'>${tempChampRef.title}</p>
+        </div>
+      </div>`;
+        $('.mastery-section').append(cardHtml);
     }
     return;
 }
