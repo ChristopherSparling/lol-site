@@ -46,8 +46,6 @@ $('#player-button').click(function () {
                 throw new Error('Network response was not ok.');
             })
             .then((body) => {
-                // console.log("Body: " + JSON.stringify(body));
-                // $('#testId').text(JSON.stringify(body));
                 encryptedSummonerId = body['id'];
                 console.log(encryptedSummonerId);
                 fillPlayerData(body);
@@ -71,14 +69,12 @@ $('#league-button').click(function () {
     if (leagueRetrieved) {
         return;
     }
-    // console.log(config._leagueUrl.replace('{encryptedSummonerId}',encryptedSummonerId));
     let fullUrl = 'https://' + playerRegion + config._apiBase + (config._leagueUrl.replace('{encryptedSummonerId}', encryptedSummonerId));
     console.log(fullUrl);
     leagueRetrieved = true;
 
     fetch(fullUrl, {
             method: 'GET',
-            // mode: 'no-cors',
             headers: config._headers
         })
         .then((response) => {
@@ -89,7 +85,6 @@ $('#league-button').click(function () {
         })
         .then((body) => {
             console.log("Body: " + JSON.stringify(body));
-            // $('#testId').text(JSON.stringify(body));
             fillLeagueData(body);
         })
         .catch(err => {
@@ -146,7 +141,6 @@ $('#mastery-button').click(function () {
             console.log(response);
             fillMasteryData(response[0].slice(0, 5), response[1], response[0].length);
         })
-        // .then(obj => console.log(obj.slice(0,5)))
         .catch(err => {
 
         });
